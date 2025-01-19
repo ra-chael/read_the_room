@@ -1,48 +1,85 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
-}
-
-.chat-container {
+  }
+  
+  .chat-container {
     width: 400px;
-    border: 1px solid #ccc;
+    max-width: 100%;
+    height: 500px;
     background-color: #fff;
-    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    height: 80vh;
-}
-
-.chat-window {
+  }
+  
+  .chat-box {
     flex-grow: 1;
     overflow-y: auto;
+    padding: 20px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .chat-box .message {
     margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.input-container {
-    display: flex;
-}
-
-input {
-    flex-grow: 1;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 10px;
-}
-
-button {
-    padding: 8px 16px;
-    background-color: #4CAF50;
-    color: white;
+  }
+  
+  .chat-box .user {
+    font-weight: bold;
+  }
+  
+  .chat-box .ai {
+    font-style: italic;
+    color: #67bf44;
+  }
+  
+  input[type="text"] {
     border: none;
-    border-radius: 4px;
-}
+    padding: 10px;
+    font-size: 14px;
+    border-top: 1px solid #eee;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 0 0 10px 10px;
+    color: #333;
+  }
+  
+  input[type="text"]:focus {
+    border-color: #67bf44;
+  }
+  
+  .send-button {
+    border: none;
+    background-color: #67bf44;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .send-button:hover {
+    background-color: #3a8c19;
+  }
+  
+  .send-button:focus {
+    outline: none;
+  }
