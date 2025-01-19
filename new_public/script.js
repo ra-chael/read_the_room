@@ -1,64 +1,67 @@
-let messages = [];
-let inactivityTimer;
+const chatBox = document.getElementById('chatBox');
+const messageInput = document.getElementById('messageInput');
+const sendButton = document.getElementById('sendButton');
 
-const chatWindow = document.getElementById('chat-window');
-const messageInput = document.getElementById('message-input');
+const userNames = ['BlueFlamingo', 'AnonymousTiger'];
+let currentUser = 0;
+let timeout;
 
-// Function to handle sending a message
-function sendMessage() {
-    const message = messageInput.value.trim();
-    if (message) {
-        const userMessage = { sender: 'User', text: message };
-        messages.push(userMessage);
-        displayMessage(userMessage);
-        messageInput.value = '';
-        resetInactivityTimer();
-        checkForAIResponse();
-    }
+const aiPrompts = [
+  "What do you think about the weather today?",
+  "Have you read any good books lately?",
+  "What are your hobbies?",
+  "Do you prefer coffee or tea?",
+  "What's your favorite movie?",
+  "If you could travel anywhere, where would you go?",
+  "Tell me something about your day.",
+  "What kind of music do you enjoy?"
+];
+
+function switchUser() {
+  currentUser = (currentUser + 1) % 2;
+  return userNames[currentUser];
 }
 
-// Function to display a message in the chat window
-function displayMessage(message) {
-    const messageElement = document.createElement('div');
-    messageElement.textContent = `${message.sender}: ${message.text}`;
-    chatWindow.appendChild(messageElement);
-    chatWindow.scrollTop = chatWindow.scrollHeight;  // Auto-scroll to the latest message
+function addMessage(user, message, type = '') {
+  const messageElement = document.createElement('div');
+  messageElement.classList.add('message');
+  if (type) messageElement.classList.add(type);
+  messageElement.innerHTML = `<span class="${type}">${user}:</span> ${message}`;
+  chatBox.appendChild(messageElement);
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// Reset the inactivity timer
-function resetInactivityTimer() {
-    clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(generateAIPrompt, 10000); // 10 seconds of inactivity
+function handleMessage() {
+  const message = messageInput.value.trim();
+  if (message) {
+    addMessage(userNames[currentUser], message);
+    messageInput.value = '';
+    clearTimeout(timeout);
+    startAIResponseTimer();
+    switchUser();
+  }
 }
 
-// Generate AI prompt when the chat goes idle
-function generateAIPrompt() {
-    fetch('/generate-prompt', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages })
-    })
-    .then(response => response.json())
-    .then(data => {
-        const aiMessage = { sender: 'AI', text: data.prompt };
-        messages.push(aiMessage);
-        displayMessage(aiMessage);
-    })
-    .catch(error => console.error('Error:', error));
+function generateAIResponse() {
+  const randomIndex = Math.floor(Math.random() * aiPrompts.length);
+  const prompt = aiPrompts[randomIndex];
+  addMessage('AI', prompt, 'ai');
+  switchUser();
+  startAIResponseTimer();
 }
 
-// Check if the last message was from the AI before generating another prompt
-function checkForAIResponse() {
-    const lastMessage = messages[messages.length - 1];
-    if (lastMessage.sender === 'User') {
-        generateAIPrompt();
-    }
+function startAIResponseTimer() {
+  timeout = setTimeout(generateAIResponse, 5000);
 }
 
-// Add event listener to send message on pressing "Enter"
-messageInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-        event.preventDefault();  // Prevent the default action (e.g., form submission)
-        sendMessage();
-    }
+messageInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    handleMessage();
+  }
 });
+
+// Button click functionality
+sendButton.addEventListener('click', handleMessage);
+
+// Initial AI prompt to start the conversation
+generateAIResponse();
