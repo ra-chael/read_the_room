@@ -1,1 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read the Room</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Read the Room</h1>
+    </header>
+    <main>
+        <!-- Welcome Screen -->
+        <section id="welcome-screen">
+            <img src="images/chatting-message-icon.jpg" alt="Chat Icon" class="chat-icon">
+            <button class="connect-button" onclick="showChatOptions()">Let’s Connect!</button>
+            <div class="chat-options">
+                <div class="option" onclick="startOneOnOne()">
+                    <img src="images/1-on-1-meetings.png" alt="1-on-1 Chat" class="option-image">
+                    <p>1 On 1</p>
+                </div>
+                <div class="option" onclick="startGroupChat()">
+                    <img src="images/group-1825509.jpg" alt="Group Chat" class="option-image">
+                    <p>Group</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chat Interface -->
+        <section id="chat-interface" style="display: none;">
+            <h2>Chatroom</h2>
+            <div id="chat"></div>
+            <textarea id="userMessage" placeholder="Type your message..."></textarea>
+            <button class="send-button" onclick="sendMessage()">Send</button>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Read the Room. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
 
